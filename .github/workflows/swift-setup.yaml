@@ -8,10 +8,10 @@ jobs:
   build-swift:
     strategy:
       matrix:
-        os: [self-hosted, macos-latest]
+        os: [self-hosted]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Test Swift Package
         run: swift test
       - name: Build Swift Package
