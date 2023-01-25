@@ -23,7 +23,7 @@ public func createPlugin() -> UnsafeMutableRawPointer {
 }
 
 public final class SetupPluginBuilder: PluginBuilder {
-    public override func build(fileUtils: FileUtilsProtocol, nsPanelUtils: NSPanelUtilsProtocol) -> any PluginInterfaceProtocol {
+    public override func build(fileUtils: FileUtilsProtocol, nsPanelUtils: NSPanelUtilsProtocol, storeUtils: StoreUtilsProtocol) -> any PluginInterfaceProtocol {
         SetupPlugin(fileUtils: fileUtils, nsPanelUtils: nsPanelUtils)
     }
 }
