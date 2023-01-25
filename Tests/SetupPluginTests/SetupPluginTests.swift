@@ -82,7 +82,8 @@ final class SetupPluginTests: XCTestCase {
         
         let model = SetupModel(networkClient: network)
         model.setup(fileUtils: fileUtils, nsPanel: panelUtils)
-        try await model.downloadFile(file: model.files[0])
+        let file = DownloadableFile(name: "test", url: URL(string: "https://google.com")!, downloadPath: "./test.txt")
+        try await model.downloadFile(file: file)
         XCTAssertEqual(fileUtils.writtenContent, "Hello world")
     }
     
@@ -93,6 +94,7 @@ final class SetupPluginTests: XCTestCase {
         
         let model = SetupModel(networkClient: network)
         model.setup(fileUtils: fileUtils, nsPanel: panelUtils)
+        model.files = [DownloadableFile(name: "test", url: URL(string: "https://google.com")!, downloadPath: "./test.txt")]
         try await model.download()
         XCTAssertGreaterThan(model.downloadedFiles.count, 0)
         XCTAssertEqual(model.downloadedFiles.count, model.files.count)

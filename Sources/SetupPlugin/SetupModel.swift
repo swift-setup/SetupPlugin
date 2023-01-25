@@ -44,7 +44,7 @@ struct NetworkRequestClient: NetworkRequest {
 
 class SetupModel: ObservableObject {
     @Published var downloadedFiles: [DownloadableFile] = []
-    @Published private(set) var files: [DownloadableFile] = []
+    @Published internal(set) var files: [DownloadableFile] = []
     
     var fileUtils: FileUtilsProtocol!
     var nsPanel: NSPanelUtilsProtocol!
