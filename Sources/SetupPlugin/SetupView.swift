@@ -15,7 +15,7 @@ struct SetupView: View {
     @State var isDownloading = false
     var disabledDownload: Bool {
         get {
-            if fileUtils.currentWorkSpace == nil {
+            if workspace == nil {
                 return true
             }
             return false
