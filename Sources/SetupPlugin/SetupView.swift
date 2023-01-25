@@ -12,10 +12,9 @@ import PluginInterface
 struct SetupView: View {
     @StateObject var model: SetupModel = SetupModel()
     @State var isDownloading = false
-    @State var workspace: URL?
     var disabledDownload: Bool {
         get {
-            if workspace == nil {
+            if fileUtils.currentWorkSpace == nil {
                 return true
             }
             return false
@@ -64,15 +63,25 @@ struct SetupView: View {
         }
         .onAppear {
             model.setup(fileUtils: fileUtils, nsPanel: nsPanel)
-            workspace = fileUtils.currentWorkSpace
+        }
+        .task {
+            await initialize()
         }
         .padding()
     }
     
+    func initialize() async {
+        do {
+            try await model.fetchDownloadList()
+        } catch {
+            nsPanel.alert(title: "Cannot pick the workspace", subtitle: error.localizedDescription, okButtonText: "OK", alertStyle: .critical)
+        }
+    }
+    
     func pickWorkspace() {
         do {
-            let workspaceUrl = try fileUtils.updateCurrentWorkSpace()
-            workspace = workspaceUrl
+            let _ = try fileUtils.updateCurrentWorkSpace()
+            try model.fetchExistingFiles()
         } catch {
             nsPanel.alert(title: "Cannot pick the workspace", subtitle: error.localizedDescription, okButtonText: "OK", alertStyle: .critical)
         }

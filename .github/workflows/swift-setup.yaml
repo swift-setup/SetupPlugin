@@ -1,0 +1,25 @@
+name: Build and release plugin
+on:
+  release:
+    types: [published]
+  push:
+
+jobs:
+  build-swift:
+    strategy:
+      matrix:
+        os: [self-hosted, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Swift Package
+        run: swift test
+      - name: Build Swift Package
+        run: swift build -c release
+      - name: Archive Swift Package
+        run: python3 package.py --pattern="*.dylib" --folder=.build/release
+      - name: Upload Swift Package
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "*.zip"
