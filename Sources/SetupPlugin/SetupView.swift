@@ -11,6 +11,7 @@ import PluginInterface
 
 struct SetupView: View {
     @StateObject var model: SetupModel = SetupModel()
+    @State var workspace: URL? = nil
     @State var isDownloading = false
     var disabledDownload: Bool {
         get {
@@ -29,7 +30,7 @@ struct SetupView: View {
             HStack {
                 Text("Current workspace:")
                 Spacer()
-                if let workspace = fileUtils.currentWorkSpace {
+                if let workspace = workspace {
                     Text(workspace.absoluteString)
                 }
                 Button("Open workspace") {
@@ -78,9 +79,10 @@ struct SetupView: View {
         }
     }
     
+    @MainActor
     func pickWorkspace() {
         do {
-            let _ = try fileUtils.updateCurrentWorkSpace()
+            workspace = try fileUtils.updateCurrentWorkSpace()
             try model.fetchExistingFiles()
         } catch {
             nsPanel.alert(title: "Cannot pick the workspace", subtitle: error.localizedDescription, okButtonText: "OK", alertStyle: .critical)
