@@ -1,0 +1,12 @@
+[
+  {
+    "name": "GitHub Release and Test Workflow",
+    "url": "https://swift-setup.github.io/scripts/workflows/plugin/sample.yaml",
+    "downloadPath": ".github/workflows/swift-setup.yaml"
+  },
+  {
+    "name": "Package Helper",
+    "url": "https://swift-setup.github.io/scripts/package-plugin/package.py",
+    "downloadPath": "package.py"
+  }
+]

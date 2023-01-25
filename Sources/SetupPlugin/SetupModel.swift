@@ -32,20 +32,22 @@ struct NetworkRequestClient: NetworkRequest {
 
 class SetupModel: ObservableObject {
     @Published var downloadedFiles: [DownloadableFile] = []
+    @Published private(set) var files: [DownloadableFile] = []
+    
     var fileUtils: FileUtilsProtocol!
     var nsPanel: NSPanelUtilsProtocol!
     let networkClient: NetworkRequest
-    let files: [DownloadableFile] = [
-        DownloadableFile(name: "Package Helper", url: URL(string: "https://swift-setup.github.io/scripts/package-plugin/package.py")!, downloadPath: "package.py"),
-    ]
+    
 
     init(networkClient: NetworkRequest = NetworkRequestClient()) {
         self.networkClient = networkClient
     }
     
-    func setup(fileUtils: FileUtilsProtocol, nsPanel: NSPanelUtilsProtocol) {
+    func setup(fileUtils: FileUtilsProtocol, nsPanel: NSPanelUtilsProtocol) async throws {
         self.fileUtils = fileUtils
         self.nsPanel = nsPanel
+        
+        self.networkClient
     }
     
     func download() async throws {
